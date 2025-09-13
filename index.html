@@ -138,6 +138,9 @@
                         <button class="tab-btn active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="init">Initialization</button>
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="get">GET Request</button>
                         <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="post">POST Request</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="put">PUT Request</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="patch">PATCH Request</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="delete">DELETE Request</button>
                     </nav>
                 </div>
                 
@@ -216,7 +219,7 @@ void main() {
                 get: `// Assume a User model exists with User.fromJson
 // final apiService = ApiService();
 
-async function fetchUser() {
+Future<void> fetchUser() async {
   console.log('Fetching user...');
   const response = await apiService.get(
     '/users/1',
@@ -234,7 +237,7 @@ async function fetchUser() {
                 post: `// Assume a User model exists with User.fromJson
 // final apiService = ApiService();
 
-async function createUser() {
+Future<void> createUser() async {
   console.log('Creating user...');
   const newUserPayload = {
     'name': 'Jane Doe',
@@ -252,6 +255,67 @@ async function createUser() {
     console.log('Successfully created user with ID: \${createdUser.id}');
   } else {
     console.log('Failed to create user: \${response.message}');
+  }
+}`,
+                put: `// Assume a User model exists with User.fromJson
+// final apiService = ApiService();
+
+Future<void> updateUser() async {
+  console.log('Updating user...');
+  const updatedUserPayload = {
+    'name': 'Jane Updated',
+    'email': 'jane.updated@example.com',
+  };
+
+  const response = await apiService.put(
+    '/users/123',
+    updatedUserPayload,
+    User.fromJson,
+  );
+
+  if (response.success && response.data != null) {
+    const updatedUser = response.data;
+    console.log('Successfully updated user: \${updatedUser.name}');
+  } else {
+    console.log('Failed to update user: \${response.message}');
+  }
+}`,
+                patch: `// Assume a User model exists with User.fromJson
+// final apiService = ApiService();
+
+Future<void> patchUser() async {
+  console.log('Patching user...');
+  const patchPayload = {
+    'name': 'Jane Patched',
+  };
+
+  const response = await apiService.patch(
+    '/users/123',
+    patchPayload,
+    User.fromJson,
+  );
+
+  if (response.success && response.data != null) {
+    const patchedUser = response.data;
+    console.log('Successfully patched user: \${patchedUser.name}');
+  } else {
+    console.log('Failed to patch user: \${response.message}');
+  }
+}`,
+                delete: `// Assume a User model exists with User.fromJson
+// final apiService = ApiService();
+
+Future<void> deleteUser() async {
+  console.log('Deleting user...');
+  const response = await apiService.delete(
+    '/users/123',
+    User.fromJson,
+  );
+
+  if (response.success) {
+    console.log('Successfully deleted user.');
+  } else {
+    console.log('Failed to delete user: \${response.message}');
   }
 }`
             };
@@ -273,7 +337,7 @@ async function createUser() {
                     }
                 });
 
-                if (tab === 'get' || tab === 'post') {
+                if (tab !== 'init') {
                     runDemoBtn.style.display = 'block';
                 } else {
                     runDemoBtn.style.display = 'none';
@@ -300,7 +364,7 @@ async function createUser() {
 
             const runDemo = (type) => {
                 consoleOutput.innerHTML = '';
-                logToConsole(`Simulating ${type.toUpperCase()} request to /users...`);
+                logToConsole(`Simulating ${type.toUpperCase()} request...`);
                 runDemoBtn.disabled = true;
                 runDemoBtn.innerText = 'Running...';
                 
@@ -309,17 +373,21 @@ async function createUser() {
                     
                     if (isSuccess) {
                         logToConsole('Request successful!', 'success');
-                        const responseData = type === 'get'
+                        let responseData;
+                        if (type === 'get' || type === 'post' || type === 'put' || type === 'patch') {
+                           responseData = type === 'get'
                             ? { id: 1, name: 'John Doe', email: 'john.doe@example.com' }
-                            : { id: Math.floor(Math.random() * 100) + 1, name: 'Jane Doe', email: 'jane.doe@example.com' };
-                        
-                        const apiResponse = {
-                            success: true,
-                            message: 'OK',
-                            data: responseData
-                        };
-                        logToConsole(JSON.stringify(apiResponse, null, 2));
-
+                            : type === 'post'
+                            ? { id: Math.floor(Math.random() * 100) + 1, name: 'Jane Doe', email: 'jane.doe@example.com' }
+                            : type === 'put'
+                            ? { id: 123, name: 'Jane Updated', email: 'jane.updated@example.com' }
+                            : { id: 123, name: 'Jane Patched', email: 'jane.doe@example.com' };
+                            const apiResponse = { success: true, message: 'OK', data: responseData };
+                            logToConsole(JSON.stringify(apiResponse, null, 2));
+                        } else if (type === 'delete') {
+                           const apiResponse = { success: true, message: 'OK', data: null };
+                           logToConsole(JSON.stringify(apiResponse, null, 2));
+                        }
                     } else {
                         logToConsole('Request failed!', 'error');
                         const apiResponse = {
