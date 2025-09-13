@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple API Service - Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: Calm Harmony (Slate Gray, Sky Blue, White)
+        Application Structure Plan: A top-down, single-page application with a sticky navigation header for quick access to key sections. The structure guides the user from a high-level overview to core features, practical installation steps, and finally to an interactive code demonstration. This flow was chosen to mirror a developer's learning process: understand the 'what' and 'why' (features), learn the 'how' (installation), and then experiment with it (interactive usage demo). This is more intuitive and engaging than a plain text document.
+        Visualization & Content Choices: 
+        - Report Info: Key Features -> Goal: Organize & Inform -> Viz: Interactive Cards -> Interaction: Click to expand details. Justification: More engaging than a bullet list. Method: HTML/CSS/JS.
+        - Report Info: Installation Code -> Goal: Actionable -> Viz: Styled Code Block -> Interaction: Copy-to-clipboard button. Justification: Improves developer workflow. Method: HTML/JS.
+        - Report Info: Usage Examples (GET/POST) -> Goal: Teach & Demonstrate -> Viz: Tabbed interface with a mock console -> Interaction: Tabs to switch code, "Run Demo" button to simulate API calls and show live output. Justification: Transforms passive reading into active learning, making the package's benefits tangible. Method: HTML/JS.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid #e2e8f0; /* slate-200 */
+        }
+        .feature-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .code-block {
+            background-color: #1e293b; /* slate-800 */
+            color: #e2e8f0; /* slate-200 */
+        }
+        .console-output {
+            background-color: #0f172a; /* slate-900 */
+            color: #cbd5e1; /* slate-300 */
+            height: 300px;
+            overflow-y: auto;
+        }
+        .console-output .success { color: #22c55e; /* green-500 */ }
+        .console-output .error { color: #ef4444; /* red-500 */ }
+        .console-output .info { color: #38bdf8; /* sky-400 */ }
+        .tab-btn.active {
+            border-color: #0ea5e9; /* sky-500 */
+            color: #0ea5e9; /* sky-500 */
+            background-color: #f0f9ff; /* sky-50 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="sticky-nav bg-white/80">
+        <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-slate-800">Simple API Service</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#features" class="text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                        <a href="#installation" class="text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium">Installation</a>
+                        <a href="#usage" class="text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium">Usage Demo</a>
+                        <a href="#contributing" class="text-slate-600 hover:text-sky-500 px-3 py-2 rounded-md text-sm font-medium">Contributing</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        <section id="hero" class="text-center py-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900">A Simple, Robust API Service for Dart</h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">
+                Manage API calls with a built-in request queue, unified response handling, and a flexible singleton pattern.
+            </p>
+        </section>
+
+        <section id="features" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-12">Core Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl mb-4">⚙️</div>
+                    <h3 class="text-lg font-semibold text-slate-900">Singleton Pattern</h3>
+                    <p class="mt-2 text-slate-600">Ensures one and only one instance of the service, providing a single, global point of access to your API client.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl mb-4">🚦</div>
+                    <h3 class="text-lg font-semibold text-slate-900">Request Queuing</h3>
+                    <p class="mt-2 text-slate-600">Automatically processes API calls sequentially, preventing race conditions and simplifying state management.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl mb-4">⚠️</div>
+                    <h3 class="text-lg font-semibold text-slate-900">Custom Error Handling</h3>
+                    <p class="mt-2 text-slate-600">A flexible `ErrorHandler` callback allows you to implement app-wide error logic in one central place.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl mb-4">📦</div>
+                    <h3 class="text-lg font-semibold text-slate-900">Unified API Response</h3>
+                    <p class="mt-2 text-slate-600">All calls return a consistent `ApiResponse` object, simplifying how you handle success, failure, and data.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="installation" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Installation</h2>
+            <p class="text-center text-slate-600 mb-8 max-w-2xl mx-auto">Get started by adding the package to your `pubspec.yaml` file and running `dart pub get`.</p>
+            <div class="max-w-2xl mx-auto relative">
+                <div class="code-block rounded-lg p-4 font-code text-sm overflow-x-auto">
+                    <pre><code id="install-code">dependencies:
+  simple_api_service: ^0.0.1</code></pre>
+                </div>
+                <button id="copy-install-btn" class="absolute top-2 right-2 bg-slate-600 hover:bg-sky-500 text-white text-xs font-bold py-1 px-2 rounded">COPY</button>
+            </div>
+        </section>
+
+        <section id="usage" class="py-16">
+            <h2 class="text-3xl font-bold text-center text-slate-800 mb-4">Interactive Usage Demo</h2>
+            <p class="text-center text-slate-600 mb-12 max-w-3xl mx-auto">This interactive demo shows how to use the `ApiService`. Select a tab to see the code, then click "Run Demo" to simulate the API call and see the result in the console.</p>
+            
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <div class="border-b border-slate-200">
+                    <nav class="-mb-px flex space-x-1 sm:space-x-4 px-4" aria-label="Tabs">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-tab="init">Initialization</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="get">GET Request</button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300" data-tab="post">POST Request</button>
+                    </nav>
+                </div>
+                
+                <div id="code-views" class="relative">
+                    <div class="code-block p-4 font-code text-sm overflow-x-auto min-h-[300px]">
+                        <pre><code id="code-display"></code></pre>
+                    </div>
+                    <button id="run-demo-btn" class="hidden absolute bottom-4 right-4 bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
+                        ▶ Run Demo
+                    </button>
+                </div>
+                
+                <div class="p-4 border-t border-slate-200">
+                    <h4 class="font-semibold text-slate-700">Mock Console Output</h4>
+                    <div id="console-output" class="console-output mt-2 p-4 rounded-lg font-code text-xs">
+                        <p class="info">> Console ready. Click "Run Demo" to see output.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contributing" class="text-center py-16">
+            <h2 class="text-3xl font-bold text-slate-800 mb-4">Contributing</h2>
+            <p class="max-w-2xl mx-auto text-slate-600 mb-8">
+                Contributions are welcome! If you find a bug or have an idea for a new feature, please open an issue or submit a pull request on the GitHub repository.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="https://github.com/your_username/simple_api_service" target="_blank" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-6 rounded-lg">
+                    GitHub Repository
+                </a>
+                <a href="https://github.com/your_username/simple_api_service/issues" target="_blank" class="bg-white hover:bg-slate-100 text-slate-800 font-bold py-3 px-6 rounded-lg border border-slate-300">
+                    Issue Tracker
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>This package is maintained by `your_username`.</p>
+            <p class="mt-1">Interactive documentation generated from `README.md`.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyInstallBtn = document.getElementById('copy-install-btn');
+            const installCode = document.getElementById('install-code').innerText;
+
+            copyInstallBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(installCode).then(() => {
+                    copyInstallBtn.innerText = 'COPIED!';
+                    setTimeout(() => {
+                        copyInstallBtn.innerText = 'COPY';
+                    }, 2000);
+                });
+            });
+            
+            const codeSnippets = {
+                init: `import 'package:simple_api_service/simple_api_service.dart';
+
+void main() {
+  // Initialize the singleton with your API's base URL.
+  // This should only be called once in your app's lifecycle.
+  final apiService = ApiService(
+    baseUrl: 'https://api.example.com/v1',
+    // You can optionally add a custom error handler for DioExceptions.
+    errorHandler: (message, retry) => {
+      print('API Error: $message');
+      // In a real app, you might show a SnackBar or Dialog.
+    },
+  );
+
+  // Now you can use the apiService instance from anywhere.
+}`,
+                get: `// Assume a User model exists with User.fromJson
+// final apiService = ApiService();
+
+async function fetchUser() {
+  console.log('Fetching user...');
+  const response = await apiService.get(
+    '/users/1',
+    User.fromJson,
+    { queryParams: { 'role': 'admin' } }
+  );
+
+  if (response.success && response.data != null) {
+    const user = response.data;
+    console.log('Successfully fetched user: \${user.name}');
+  } else {
+    console.log('Failed to fetch user: \${response.message}');
+  }
+}`,
+                post: `// Assume a User model exists with User.fromJson
+// final apiService = ApiService();
+
+async function createUser() {
+  console.log('Creating user...');
+  const newUserPayload = {
+    'name': 'Jane Doe',
+    'email': 'jane.doe@example.com',
+  };
+
+  const response = await apiService.post(
+    '/users',
+    newUserPayload,
+    User.fromJson,
+  );
+
+  if (response.success && response.data != null) {
+    const createdUser = response.data;
+    console.log('Successfully created user with ID: \${createdUser.id}');
+  } else {
+    console.log('Failed to create user: \${response.message}');
+  }
+}`
+            };
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const codeDisplay = document.getElementById('code-display');
+            const runDemoBtn = document.getElementById('run-demo-btn');
+            const consoleOutput = document.getElementById('console-output');
+            let activeTab = 'init';
+
+            const updateCodeView = (tab) => {
+                activeTab = tab;
+                codeDisplay.innerText = codeSnippets[tab];
+                tabButtons.forEach(btn => {
+                    if (btn.dataset.tab === tab) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                if (tab === 'get' || tab === 'post') {
+                    runDemoBtn.style.display = 'block';
+                } else {
+                    runDemoBtn.style.display = 'none';
+                }
+            };
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    updateCodeView(button.dataset.tab);
+                });
+            });
+
+            runDemoBtn.addEventListener('click', () => {
+                runDemo(activeTab);
+            });
+
+            const logToConsole = (message, type = 'info') => {
+                const p = document.createElement('p');
+                p.className = type;
+                p.innerText = `> ${message}`;
+                consoleOutput.appendChild(p);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight;
+            };
+
+            const runDemo = (type) => {
+                consoleOutput.innerHTML = '';
+                logToConsole(`Simulating ${type.toUpperCase()} request to /users...`);
+                runDemoBtn.disabled = true;
+                runDemoBtn.innerText = 'Running...';
+                
+                setTimeout(() => {
+                    const isSuccess = Math.random() > 0.3; // 70% chance of success
+                    
+                    if (isSuccess) {
+                        logToConsole('Request successful!', 'success');
+                        const responseData = type === 'get'
+                            ? { id: 1, name: 'John Doe', email: 'john.doe@example.com' }
+                            : { id: Math.floor(Math.random() * 100) + 1, name: 'Jane Doe', email: 'jane.doe@example.com' };
+                        
+                        const apiResponse = {
+                            success: true,
+                            message: 'OK',
+                            data: responseData
+                        };
+                        logToConsole(JSON.stringify(apiResponse, null, 2));
+
+                    } else {
+                        logToConsole('Request failed!', 'error');
+                        const apiResponse = {
+                            success: false,
+                            message: 'Http status error [500]',
+                            data: null
+                        };
+                        logToConsole(JSON.stringify(apiResponse, null, 2));
+                    }
+                    runDemoBtn.disabled = false;
+                    runDemoBtn.innerHTML = '▶ Run Demo';
+
+                }, 1500);
+            };
+
+            // Initial view
+            updateCodeView('init');
+        });
+    </script>
+</body>
+</html>
