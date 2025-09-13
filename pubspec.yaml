@@ -1,5 +1,5 @@
 name: simple_api_service
-description: A starting point for Dart libraries or applications.
+description: A robust Dart package for managing API calls with a built-in request queue, unified responses, and flexible error handling.
 version: 0.0.1
 homepage: https://github.com/devesh12335/simple_api_service
 repository: https://github.com/devesh12335/simple_api_service
