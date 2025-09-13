@@ -8,10 +8,7 @@ class User {
   User({required this.id, required this.name});
 
   factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'] as int,
-      name: json['name'] as String,
-    );
+    return User(id: json['id'] as int, name: json['name'] as String);
   }
 
   @override
@@ -33,9 +30,13 @@ void main() async {
 
   // Demonstrate using the singleton from another part of the app.
   // This will return the same instance as the one above.
-  final anotherApiServiceInstance = ApiService(baseUrl: 'https://another-url.com');
+  final anotherApiServiceInstance = ApiService(
+    baseUrl: 'https://another-url.com',
+  );
   print('\n--- Singleton Verification ---');
-  print('Are the instances the same? ${identical(apiService, anotherApiServiceInstance)}');
+  print(
+    'Are the instances the same? ${identical(apiService, anotherApiServiceInstance)}',
+  );
 
   print('\n--- 1. Performing a GET request ---');
   final userResponse = await apiService.get('/users/1', User.fromJson);
@@ -48,12 +49,20 @@ void main() async {
 
   print('\n--- 3. Performing a PUT request ---');
   final updatedUser = {'id': 2, 'name': 'Jane Doe'};
-  final putResponse = await apiService.put('/users/2', updatedUser, User.fromJson);
+  final putResponse = await apiService.put(
+    '/users/2',
+    updatedUser,
+    User.fromJson,
+  );
   print(putResponse);
 
   print('\n--- 4. Performing a PATCH request ---');
   final patchData = {'name': 'Jane'};
-  final patchResponse = await apiService.patch('/users/2', patchData, User.fromJson);
+  final patchResponse = await apiService.patch(
+    '/users/2',
+    patchData,
+    User.fromJson,
+  );
   print(patchResponse);
 
   print('\n--- 5. Performing a DELETE request ---');
