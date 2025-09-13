@@ -1,9 +1,9 @@
 name: simple_api_service
 description: A starting point for Dart libraries or applications.
-version: 1.0.0
-homepage: https://github.com/your_username/simple_api_service
-repository: https://github.com/your_username/simple_api_service
-issue_tracker: https://github.com/your_username/simple_api_service/issues
+version: 0.0.1
+homepage: https://github.com/devesh12335/simple_api_service
+repository: https://github.com/devesh12335/simple_api_service
+issue_tracker: https://github.com/devesh12335/simple_api_service/issues
 
 environment:
   sdk: ^3.9.0
